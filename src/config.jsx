@@ -1,5 +1,5 @@
 const server = {
-    BASE_URL : import.meta.env.VITE_API_BACKEND_URL,
+    BASE_URL : 'https://721b-14-102-2-74.ngrok-free.app',
 }
 const config ={
     ...server,
