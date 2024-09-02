@@ -9,6 +9,7 @@ import backarrow from "../../assets/images/back_arrow.svg";
 import thumbsUpIcon from "../../assets/images/thumbs-up.svg";
 import thumbsDownIcon from "../../assets/images/thumbs-down.svg";
 import { externalChat, feedbackChat } from "../../server/server";
+import Cookies from "universal-cookie";
 
 class Chatbot extends Component {
   constructor(props) {
@@ -197,10 +198,11 @@ class Chatbot extends Component {
   };
 
   handleGetStarted = () => {
-    let sessionId = localStorage.getItem("sessionId");
+    const cookies = new Cookies()
+    let sessionId = cookies.get("sessionId");
     if (!sessionId) {
       sessionId = uuidv4();
-      localStorage.setItem("sessionId",sessionId);
+      cookies.set("sessionId",sessionId,{path:'/'});
     }
     this.setState({ isHomeView: false }, this.resetInactivityTimers);
   };
@@ -530,11 +532,6 @@ class Chatbot extends Component {
                             </div>
                           )}
                         </div>
-                        {showMessage === index && (
-                              <div className="thankYouMessage">
-                                Thanks for Your Feedback!
-                              </div>
-                            )}
                         {!message.isUser && message.source && (
                           <div className="feedbackButtons">
                             <button
@@ -557,6 +554,11 @@ class Chatbot extends Component {
                             >
                               <img src={thumbsDownIcon} alt="Thumbs Down" />
                             </button>
+                          </div>
+                        )}
+                        {showMessage === index && (
+                          <div className="thankYouMessage">
+                            Thanks for Your Feedback!
                           </div>
                         )}
                       </div>

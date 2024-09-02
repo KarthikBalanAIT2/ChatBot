@@ -1,11 +1,12 @@
 import axios from "axios";
 import config from "../config";
+const apiKey = config.API_KEY;
 
 export async function externalChat({ prompt, sessionId, requestId }) {
   try {
     const response = await axios.post(
       `${config.external_chat}`,
-      { prompt },
+      { prompt,apiKey },
       {
         headers: {
           "X-SessionId": sessionId,
