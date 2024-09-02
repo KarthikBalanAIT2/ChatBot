@@ -42,7 +42,7 @@ class Chatbot extends Component {
     this.messageRefs = [];
     this.messagesEndRef = createRef();
   }
-
+ cookies = new Cookies()
   componentDidUpdate(prevProps, prevState) {
     if (this.state.isChatbotVisible && !this.state.initialMessageAdded) {
       if (
@@ -198,11 +198,10 @@ class Chatbot extends Component {
   };
 
   handleGetStarted = () => {
-    const cookies = new Cookies()
-    let sessionId = cookies.get("sessionId");
+    let sessionId = this.cookies.get("sessionId");
     if (!sessionId) {
       sessionId = uuidv4();
-      cookies.set("sessionId",sessionId,{path:'/'});
+      this.cookies.set("sessionId",sessionId,{path:'/'});
     }
     this.setState({ isHomeView: false }, this.resetInactivityTimers);
   };
@@ -232,7 +231,7 @@ class Chatbot extends Component {
       this.handleUserActivity();
 
       try {
-        const sessionId = localStorage.getItem("sessionId");
+        const sessionId = this.cookies.get("sessionId");
         const response = await externalChat({
           prompt: input,
           sessionId,
